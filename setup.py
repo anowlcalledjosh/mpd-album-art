@@ -11,7 +11,7 @@ setup(
 
     py_modules=['mpd_album_art'],
     entry_points={
-        'console_scripts': ["mpd-album-art=mpd_album_art:main"],
+        'console_scripts': ["mpd-album-art=mpd_album_art.__main__:main"],
     },
     install_requires=['python-mpd2', 'pylast'],
 
