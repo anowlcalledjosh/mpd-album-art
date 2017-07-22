@@ -240,7 +240,7 @@ def _sanitize(name):
     return name.replace('"', "'")
 
 
-if __name__ == '__main__':
+def main():
     import argparse, os
 
     home_dir = os.environ['HOME']
@@ -290,3 +290,7 @@ if __name__ == '__main__':
     sys.stderr.write('Exiting.\n')
     mpd_client.disconnect()
     sys.exit(0)
+
+
+if __name__ == '__main__':
+    main()

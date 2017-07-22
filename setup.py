@@ -10,7 +10,9 @@ setup(
     url = "http://jameh.github.io/mpd-album-art",
 
     py_modules = ['mpd_album_art'],
-    scripts = ['mpd_album_art.py'],
+    entry_points = {
+        'console_scripts': ["mpd-album-art=mpd_album_art:main"],
+    },
     install_requires = ['python-mpd2', 'pylast'],
 
     keywords = "MPD, Album Art, LastFM",
