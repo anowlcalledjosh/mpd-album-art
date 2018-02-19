@@ -9,7 +9,7 @@ setup(
 
     url="http://jameh.github.io/mpd-album-art",
 
-    py_modules=['mpd_album_art'],
+    packages=['mpd_album_art'],
     entry_points={
         'console_scripts': ["mpd-album-art=mpd_album_art.__main__:main"],
     },
