@@ -7,6 +7,11 @@ import os
 import sys
 
 
+def log(msg):
+    if not args.quiet:
+        sys.stderr.write(msg)
+
+
 def main():
     home_dir = os.environ['HOME']
     parser = argparse.ArgumentParser()
@@ -17,6 +22,7 @@ def main():
     parser.add_argument('-a', '--art_dir', type=str,
                         default=os.path.join(home_dir, '.covers'))
     parser.add_argument('-l', '--link_name', type=str, default='current')
+    parser.add_argument('-q', '--quiet', action='store_true')
     args = parser.parse_args()
 
     # initialize MPD client
@@ -30,7 +36,7 @@ def main():
         mpd_client.connect(args.hostname, args.port)
     except socket.error:
         # Cannot connect
-        sys.stderr.write('MPD not running?'+'\n')
+        log('MPD not running?\n')
         grabber.remove_current_link()
         sys.exit(1)
 
@@ -42,17 +48,17 @@ def main():
 
     # try local pics
     elif grabber.get_local_art(current_song) is not None:
-        sys.stderr.write('Found local image, not querying LastFM.\n')
+        log('Found local image, not querying LastFM.\n')
 
     # try lastFM pics
     elif grabber.get_art(current_song) is not None:
-        sys.stderr.write('Found lastFM image.\n')
+        log('Found lastFM image.\n')
 
     # Potentially link to a default image here (link has been destroyed at this
     # point)
 
     # done
-    sys.stderr.write('Exiting.\n')
+    log('Exiting.\n')
     mpd_client.disconnect()
 
 
