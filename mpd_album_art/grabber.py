@@ -29,13 +29,9 @@ from pylast import LastFMNetwork, AlbumSearch
 import os
 import sys
 
-try:
-    # Python 3
-    from urllib.request import urlretrieve
-    from urllib.error import HTTPError
-except ImportError:
-    # Python 2
-    from urllib import urlretrieve
+from urllib.request import urlretrieve
+from urllib.error import HTTPError
+
 
 _image_extensions = (".jpg", ".jpeg", ".png")
 """Extensions to qualify a file as an image"""
@@ -44,7 +40,7 @@ _last_fm_api_key = "6b6d8768f0c41f7e82da0de44e1db76a"
 """LastFM API key for the application"""
 
 
-class Grabber(object):
+class Grabber:
     """An object to grab artwork for MPD songs
 
     :param str save_dir:
@@ -70,7 +66,7 @@ class Grabber(object):
     ...                   link_path=current_cover_link)
     """
     def __init__(self, save_dir, library_dir=None, link_path=None, quiet=False):
-        super(Grabber, self).__init__()
+        super().__init__()
 
         self.save_dir = save_dir
 

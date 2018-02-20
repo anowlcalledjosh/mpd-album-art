@@ -17,5 +17,11 @@ setup(
 
     keywords="MPD, Album Art, LastFM",
 
+    classifiers=[
+        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.6",
+    ],
+
     # could also include long_description, download_url, classifiers, etc.
 )
