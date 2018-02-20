@@ -32,6 +32,7 @@ import sys
 try:
     # Python 3
     from urllib.request import urlretrieve
+    from urllib.error import HTTPError
 except ImportError:
     # Python 2
     from urllib import urlretrieve
@@ -104,15 +105,15 @@ class Grabber(object):
         l = [n for n in os.listdir(self.save_dir)
              if n.startswith(song['artist'] + "_" + song['album'])]
         if l != []:
-            log("Already have this album\n")
+            self._log("Already have this album\n")
             file_path = os.path.join(self.save_dir, l[0])
 
             # We have album art - check if it's linked
             if os.path.realpath(self.link_path) != file_path:
-                log("Linking...\n")
+                self._log("Linking...\n")
                 self.remove_current_link()
                 self.set_current_link(file_path)
-            log("Exiting.\n")
+            self._log("Exiting.\n")
             return file_path
 
         # Define the search network compatible with LastFM API
@@ -123,7 +124,7 @@ class Grabber(object):
         if album_search.get_total_result_count() == 0:
             # Remove current album link, and return, since no art was found for
             # given query.
-            log("No results from Last.FM\n")
+            self._log("No results from Last.FM\n")
             self.remove_current_link()
             return None
 
@@ -147,7 +148,7 @@ class Grabber(object):
                 urlretrieve(img_url, file_path)
                 self.remove_current_link()
             except HTTPError as e:
-                log(e + "\n")
+                self._log(e + "\n")
                 self.remove_current_link()
                 return None
 
@@ -172,7 +173,7 @@ class Grabber(object):
         images = self._get_images_from_folder(song_folder)
 
         if images == []:
-            log("No local results from {}\n".format(song_folder))
+            self._log("No local results from {}\n".format(song_folder))
             return None
 
         # Pick the largest file
