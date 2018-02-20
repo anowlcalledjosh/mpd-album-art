@@ -1,9 +1,10 @@
 from mpd_album_art import Grabber
 
-from mpd import MPDClient, socket
+from mpd import MPDClient
 
 import argparse
 import os
+import socket
 import sys
 
 
