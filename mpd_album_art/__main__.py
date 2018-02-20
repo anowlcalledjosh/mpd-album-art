@@ -8,11 +8,6 @@ import socket
 import sys
 
 
-def log(msg):
-    if not args.quiet:
-        sys.stderr.write(msg)
-
-
 def main():
     home_dir = os.environ['HOME']
     parser = argparse.ArgumentParser()
@@ -25,6 +20,10 @@ def main():
     parser.add_argument('-l', '--link_name', type=str, default='current')
     parser.add_argument('-q', '--quiet', action='store_true')
     args = parser.parse_args()
+
+    def log(msg):
+        if not args.quiet:
+            sys.stderr.write(msg)
 
     # initialize MPD client
     mpd_client = MPDClient()
