@@ -4,7 +4,7 @@ setup(
     version="0.1",
     author="Jamie Macdonald",
     author_email="jamie.alban@gmail.com",
-    description="Module to fetch Album Art for currently playing song on Music PLayer Daemon",
+    description="Module to fetch Album Art for currently playing song on Music Player Daemon",
     license="GPL 3.0",
 
     url="http://jameh.github.io/mpd-album-art",
