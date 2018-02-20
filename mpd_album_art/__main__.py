@@ -29,7 +29,8 @@ def main():
     mpd_client = MPDClient()
 
     grabber = Grabber(save_dir=args.art_dir, library_dir=args.music_dir,
-                      link_path=os.path.join(args.art_dir, args.link_name))
+                      link_path=os.path.join(args.art_dir, args.link_name),
+                      quiet=args.quiet)
 
     try:
         # connect client to MPD server

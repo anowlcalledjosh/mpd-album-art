@@ -68,7 +68,7 @@ class Grabber(object):
     >>> grabber = Grabber(save_dir=cover_path, library_dir=music_path,
     ...                   link_path=current_cover_link)
     """
-    def __init__(self, save_dir, library_dir=None, link_path=None):
+    def __init__(self, save_dir, library_dir=None, link_path=None, quiet=False):
         super(Grabber, self).__init__()
 
         self.save_dir = save_dir
@@ -80,6 +80,8 @@ class Grabber(object):
         if link_path is None:
             link_path = os.path.join(save_dir, "current")
         self.link_path = link_path
+
+        self._quiet = quiet
 
     def get_art(self, song):
         """Get artwork from LastFM.
@@ -102,15 +104,15 @@ class Grabber(object):
         l = [n for n in os.listdir(self.save_dir)
              if n.startswith(song['artist'] + "_" + song['album'])]
         if l != []:
-            sys.stderr.write("Already have this album\n")
+            log("Already have this album\n")
             file_path = os.path.join(self.save_dir, l[0])
 
             # We have album art - check if it's linked
             if os.path.realpath(self.link_path) != file_path:
-                sys.stderr.write("Linking...\n")
+                log("Linking...\n")
                 self.remove_current_link()
                 self.set_current_link(file_path)
-            sys.stderr.write("Exiting.\n")
+            log("Exiting.\n")
             return file_path
 
         # Define the search network compatible with LastFM API
@@ -121,7 +123,7 @@ class Grabber(object):
         if album_search.get_total_result_count() == 0:
             # Remove current album link, and return, since no art was found for
             # given query.
-            sys.stderr.write("No results from Last.FM\n")
+            log("No results from Last.FM\n")
             self.remove_current_link()
             return None
 
@@ -145,7 +147,7 @@ class Grabber(object):
                 urlretrieve(img_url, file_path)
                 self.remove_current_link()
             except HTTPError as e:
-                sys.stderr.write(e + "\n")
+                log(e + "\n")
                 self.remove_current_link()
                 return None
 
@@ -170,7 +172,7 @@ class Grabber(object):
         images = self._get_images_from_folder(song_folder)
 
         if images == []:
-            sys.stderr.write("No local results from {}\n".format(song_folder))
+            log("No local results from {}\n".format(song_folder))
             return None
 
         # Pick the largest file
@@ -228,6 +230,10 @@ class Grabber(object):
             defined in the ``image_extensions`` tuple.
         """
         return [f for f in os.listdir(folder) if f.endswith(_image_extensions)]
+
+    def _log(self, msg):
+        if not self._quiet:
+            sys.stderr.write(msg)
 
 
 def _sanitize(name):
